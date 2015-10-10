@@ -2,6 +2,8 @@ package cashpad
 
 import scala.slick.driver.MySQLDriver.simple._
 
+import scala.concurrent.Future
+
 import models._
 
 import scalaz._
@@ -49,6 +51,20 @@ trait PadControllerModule extends io.buildo.base.MonadicCtrlModule
       }.map { _ =>
         ().point[CtrlFlow]
       }
+    }
+
+    def totals(id: String): FutureCtrlFlow[Totals] = {
+      for {
+        pad <- getById(id)
+        z <- eitherT {
+          {
+            calculator.PadParsers(pad.contents) match {
+              case Right(parsed) => calculator.compute(parsed).point[CtrlFlow]
+              case Left(msg) => -\/(CtrlError.InvalidOperation(msg))
+            }
+          }.point[Future]
+        }
+      } yield (z)
     }
   }
 }

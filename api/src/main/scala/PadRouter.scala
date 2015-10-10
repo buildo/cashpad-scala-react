@@ -23,7 +23,8 @@ trait PadRouterModule extends io.buildo.base.MonadicCtrlRouterModule
       (get & pathEnd) (returns[List[PadName]].ctrl(padController.getAllPadNames _)) ~
       (get & path(Segment)) (returns[Pad].ctrl(padController.getById _)) ~
       (post & entity(as[CreatePad])) (returns[Pad].ctrl(padController.create _)) ~
-      (post & path(Segment) & entity(as[UpdatePad])) (returns[Unit].ctrl(padController.update _))
+      (post & path(Segment) & entity(as[UpdatePad])) (returns[Unit].ctrl(padController.update _)) ~
+      (get & path(Segment / "totals")) (returns[Totals].ctrl(padController.totals _))
     }
   }
 }

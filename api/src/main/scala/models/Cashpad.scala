@@ -7,3 +7,5 @@ case class PadName(_id: String, name: String)
 
 case class CreatePad(name: String)
 case class UpdatePad(contents: String)
+
+case class Totals(totals: Map[String, Double])

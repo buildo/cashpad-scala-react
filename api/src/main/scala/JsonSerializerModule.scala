@@ -18,5 +18,6 @@ trait JsonSerializerModule extends io.buildo.base.MonadicCtrlJsonModule
     implicit val PadNameSI = `for`[PadName] serializeOneAs("padName") andMultipleAs("padNames")
     implicit val CreatePadSI = `for`[CreatePad]
     implicit val UpdatePadSI = `for`[UpdatePad]
+    implicit val TotalsSI = `for`[Totals] serializeOneAs("totals")
   }
 }
